@@ -1,0 +1,34 @@
+-- ============================================
+-- TABLE : mart_portfolio_perf
+-- 5 mesures DAX
+-- ============================================
+
+Sharpe Ratio =
+DIVIDE(
+    mart_portfolio_perf[annualized_return_pct] - 3,
+    mart_portfolio_perf[annualized_volatility_pct],
+    0
+)
+
+-- ------------------------------------------
+
+Avg Sharpe Ratio =
+AVERAGE( mart_portfolio_perf[sharpe_ratio] )
+
+-- ------------------------------------------
+
+Best Sharpe Bank =
+CALCULATE(
+    SELECTEDVALUE( mart_portfolio_perf[bank_name] ),
+    mart_portfolio_perf[sharpe_ratio] = MAX( mart_portfolio_perf[sharpe_ratio] )
+)
+
+-- ------------------------------------------
+
+Avg Volatility % =
+AVERAGE( mart_portfolio_perf[annualized_volatility_pct] )
+
+-- ------------------------------------------
+
+Avg Annualized Return % =
+AVERAGE( mart_portfolio_perf[annualized_return_pct] )
