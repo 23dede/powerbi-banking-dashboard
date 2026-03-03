@@ -26,6 +26,68 @@ Le projet s'inscrit dans une **architecture moderne de données en médaillon (B
 
 ---
 
+## 🗂️ Exploitation des données
+
+### 📌 Origine des données
+
+Les données utilisées dans ce projet sont **entièrement synthétiques**, générées programmatiquement avec **Python** et la librairie **Faker**. Elles simulent de manière réaliste des données bancaires (clients, transactions, scores de risque, indicateurs de fraude, performances de portfolio et données macro-économiques) sans aucune donnée personnelle réelle.
+
+> ⚠️ Aucune donnée sensible ou réelle n'a été utilisée. Ce projet respecte les principes du **RGPD** dès la conception (*Privacy by Design*).
+
+---
+
+### 🔄 Pipeline de transformation — Architecture Médaillon
+
+Le projet s'appuie sur une architecture en médaillon pour garantir la qualité et la fiabilité des données :
+
+```
+[Python / Faker]
+      │
+      ▼
+🥉 Bronze Layer  ──→  Données brutes générées (CSV, fichiers plats)
+      │                Aucune transformation — stockage tel quel
+      │
+      ▼
+🥈 Silver Layer  ──→  Nettoyage et transformation via dbt (Data Build Tool)
+      │                • Suppression des doublons
+      │                • Normalisation des types (dates, montants, booléens)
+      │                • Calcul des scores ML intermédiaires
+      │                • Jointures et enrichissements métier
+      │
+      ▼
+🥇 Gold Layer    ──→  Marts analytiques prêts pour Power BI
+                       • Tables agrégées et optimisées
+                       • Colonnes calculées métier
+                       • Validation dbt (tests de cohérence)
+```
+
+---
+
+### 🗃️ Tables exploitées par couche
+
+| Table | Bronze | Silver | Gold | Rôle dans Power BI |
+|---|---|---|---|---|
+| `credit_scoring_results` | ✅ Ingestion brute (Faker) | ✅ Nettoyage + scoring ML (dbt) | ✅ Exploitation finale | Segmentation risque client |
+| `mart_risk_scoring` | — | ✅ Enrichissement des scores (dbt) | ✅ Mart Gold | Comparaison scores ML vs règles métier |
+| `mart_fraud_indicators` | — | ✅ Agrégation des anomalies (dbt) | ✅ Mart Gold | Indicateurs de fraude par client |
+| `mart_portfolio_perf` | — | ✅ Calcul rendements / volatilité (dbt) | ✅ Mart Gold | Performance bancaire (Sharpe, Return) |
+| `macro_geo_latest` | ✅ Import données géo synthétiques | ✅ Normalisation (dbt) | ✅ Mart Gold | Contexte macro-économique par pays |
+
+---
+
+### 🛠️ Outils utilisés dans le pipeline
+
+| Étape | Outil | Rôle |
+|---|---|---|
+| Génération des données | **Python + Faker** | Création de données bancaires synthétiques réalistes |
+| Transformation Silver | **dbt (Data Build Tool)** | Nettoyage, tests, modélisation et documentation |
+| Validation qualité | **dbt tests** | Unicité `client_id`, non-nullité, cohérence métier |
+| Visualisation Gold | **Power BI Desktop** | Dashboard interactif avec 16 mesures DAX et 3 rôles RLS |
+
+Cette structuration montre comment les données sont exploitées étape par étape avant d'être visualisées dans Power BI.
+
+---
+
 ## 📋 Récapitulatif complet
 
 ### 🔗 Relations entre les tables
@@ -291,4 +353,4 @@ powerbi-banking-dashboard/
 
 ---
 
-*Projet réalisé avec Power BI Desktop · Architecture Médaillon · DAX · RLS*
+*Projet réalisé avec Power BI Desktop · Python/Faker · dbt · Architecture Médaillon · DAX · RLS*
