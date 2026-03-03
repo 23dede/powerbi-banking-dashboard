@@ -1,0 +1,49 @@
+-- ============================================
+-- TABLE : credit_scoring_results
+-- 6 mesures DAX
+-- ============================================
+
+Risk Segment Count =
+CALCULATE(
+    COUNTROWS( credit_scoring_results ),
+    ALLSELECTED( credit_scoring_results[ml_risk_segment] )
+)
+
+-- ------------------------------------------
+
+Risk Segment % =
+DIVIDE(
+    COUNTROWS( credit_scoring_results ),
+    CALCULATE( COUNTROWS( credit_scoring_results ), ALL( credit_scoring_results ) ),
+    0
+)
+
+-- ------------------------------------------
+
+Total Clients =
+COUNTROWS( credit_scoring_results )
+
+-- ------------------------------------------
+
+Avg ML Risk Score =
+AVERAGE( credit_scoring_results[ml_risk_score] )
+
+-- ------------------------------------------
+
+Clients High Risk =
+CALCULATE(
+    COUNTROWS( credit_scoring_results ),
+    credit_scoring_results[ml_risk_segment] = "high_risk"
+)
+
+-- ------------------------------------------
+
+DBT ML Agreement % =
+DIVIDE(
+    CALCULATE(
+        COUNTROWS( credit_scoring_results ),
+        credit_scoring_results[segments_agree] = TRUE()
+    ),
+    COUNTROWS( credit_scoring_results ),
+    0
+) * 100
