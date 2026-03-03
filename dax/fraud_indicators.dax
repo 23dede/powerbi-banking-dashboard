@@ -1,0 +1,36 @@
+-- ============================================
+-- TABLE : mart_fraud_indicators
+-- 4 mesures DAX
+-- ============================================
+
+Fraud Rate Pct =
+DIVIDE(
+    SUM( mart_fraud_indicators[total_fraud_count] ),
+    SUM( mart_fraud_indicators[total_transactions] ),
+    0
+) * 100
+
+-- ------------------------------------------
+
+Fraud High Alert Count =
+CALCULATE(
+    COUNTROWS( mart_fraud_indicators ),
+    mart_fraud_indicators[fraud_alert_level] = "HIGH"
+)
+
+-- ------------------------------------------
+
+Fraud Amount % of Total =
+DIVIDE(
+    SUM( mart_fraud_indicators[total_fraud_amount] ),
+    SUM( mart_fraud_indicators[total_amount] ),
+    0
+) * 100
+
+-- ------------------------------------------
+
+Priority Investigation Count =
+CALCULATE(
+    COUNTROWS( mart_fraud_indicators ),
+    mart_fraud_indicators[priority_investigation] = 1
+)
