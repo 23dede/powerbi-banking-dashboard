@@ -16,7 +16,7 @@ Download the file and open it with Power BI Desktop. All data, relationships, DA
 
 ## Dashboard Preview
 
-![Risk Overview](./image.png)
+![Risk Overview](./Capture%20d'%C3%A9cran%202026-03-03%20151859.png)
 
 The Risk Overview page shows 4 KPI cards (Total Clients, Clients High Risk, Avg ML Risk Score, DBT ML Agreement %) and a donut chart showing the distribution of clients by ML risk segment.
 
@@ -122,7 +122,7 @@ See full definition in [rls/roles_definition.md](./rls/roles_definition.md)
 powerbi-banking-dashboard/
 ├── README.md
 ├── bank_project.pbix
-├── image.png
+├── Capture d'écran 2026-03-03 151859.png
 ├── dax/
 │   ├── credit_scoring.dax
 │   ├── portfolio_perf.dax
