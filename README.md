@@ -38,7 +38,7 @@ All data is fully synthetic, generated with Python and the Faker library. No rea
 ## Data Pipeline – Medallion Architecture
 
 ```
-Python / Faker
+Python / Faker  (generate_data.py)
       |
       v
 Bronze Layer   Raw generated data (CSV flat files) - no transformation
@@ -122,6 +122,7 @@ See full definition in [rls/roles_definition.md](./rls/roles_definition.md)
 powerbi-banking-dashboard/
 ├── README.md
 ├── bank_project.pbix
+├── generate_data.py
 ├── Capture d'écran 2026-03-03 151859.png
 ├── dax/
 │   ├── credit_scoring.dax
@@ -131,6 +132,17 @@ powerbi-banking-dashboard/
 └── rls/
     └── roles_definition.md
 ```
+
+---
+
+## How to Regenerate the Data
+
+```bash
+pip install faker
+python generate_data.py
+```
+
+This creates 5 CSV files in the `data/` folder (1,000 clients, 10 banks, 20 countries). To reload in Power BI: Home > Get Data > Text/CSV.
 
 ---
 
