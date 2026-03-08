@@ -1,7 +1,5 @@
--- ============================================
 -- TABLE : macro_geo_latest
 -- 1 mesure DAX
--- ============================================
 
 Macro Risk Index =
 VAR inflation_norm = DIVIDE( macro_geo_latest[inflation_pct], 10, 0 ) * 40
